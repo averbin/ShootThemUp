@@ -6,23 +6,25 @@
 #include "Components/ActorComponent.h"
 #include "STUHealthComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-public:	
+public:
     USTUHealthComponent();
 
-	float GetHealth() const { return Health; }
+    float GetHealth() const { return Health; }
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "1.0", ClampMax = "100.0"))
-	float MaxHealth = 100.0f;
-	// Called when the game starts
-	virtual void BeginPlay() override;
+    float MaxHealth = 100.0f;
+    // Called when the game starts
+    virtual void BeginPlay() override;
 
 private:
     float Health = 0.0f;
+    UFUNCTION()
+    void OnTakeAnyDamage(
+        AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 };

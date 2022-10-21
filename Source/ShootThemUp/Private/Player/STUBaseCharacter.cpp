@@ -9,8 +9,6 @@
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
 
-DEFINE_LOG_CATEGORY_STATIC(BaseCharacterLog, All, All)
-
 // Sets default values
 ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit) 
     : Super(ObjInit.SetDefaultSubobjectClass<USTUCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -38,8 +36,6 @@ void ASTUBaseCharacter::BeginPlay()
 	
     check(HealthComponent);
     check(HealthTextComponent);
-
-    OnTakeAnyDamage.AddDynamic(this, &ASTUBaseCharacter::OnTakeAnyDamageHandle);
 }
 
 // Called every frame
@@ -111,10 +107,4 @@ void ASTUBaseCharacter::OnStartRunning()
 void ASTUBaseCharacter::OnStopRunning() 
 {
     WantsToRun = false;
-}
-
-void ASTUBaseCharacter::OnTakeAnyDamageHandle(
-    AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
-{
-    UE_LOG(BaseCharacterLog, Warning, TEXT("Take a damage!!!"));
 }
