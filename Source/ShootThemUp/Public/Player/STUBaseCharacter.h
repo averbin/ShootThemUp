@@ -52,4 +52,9 @@ private:
     void MoveRight(float Amount);
     void OnStartRunning();
     void OnStopRunning();
+
+    UFUNCTION()
+    void OnTakeAnyDamageHandle(AActor* DamagedActor, float Damage, 
+        const UDamageType* DamageType, AController* InstigatedBy,
+        AActor* DamageCauser);
 };
