@@ -16,13 +16,13 @@ struct FAutoHealProperties
     GENERATED_USTRUCT_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
-    bool AutoHeal = false;
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
+    bool AutoHeal = true;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
     float HealUpdateTimer = 1.0f;
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
-    float HealDelay = 0.0f;
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
-    float HealModifier = 1.0f;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+    float HealDelay = 3.0f;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+    float HealModifier = 4.0f;
 };
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -53,10 +53,9 @@ protected:
 
 private:
     float Health = 0.0f;
-    FTimerHandle TimerHandler;
+    FTimerHandle HealingTimerHandler;
     UFUNCTION()
     void OnTakeAnyDamage(
         AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
-    UFUNCTION()
-    void OnActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
+    void SetHealth(const float Healing);
 };

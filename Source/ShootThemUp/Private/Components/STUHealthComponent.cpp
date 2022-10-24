@@ -20,48 +20,56 @@ void USTUHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-    Health = MaxHealth;
-
-    OnHealthChanged.Broadcast(Health);
+    SetHealth(MaxHealth);
 
     if (auto Owner = GetOwner())
     {
         Owner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamage);
-        Owner->OnActorBeginOverlap.AddDynamic(this, &USTUHealthComponent::OnActorEndOverlap);
     }
 }
 
 void USTUHealthComponent::OnTakeAnyDamage(
     AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-    if (Damage <= 0.0f || IsDead())
+    if (Damage <= 0.0f || IsDead() || !GetWorld())
         return;
-    Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
-    OnHealthChanged.Broadcast(Health);
+
+    GetWorld()->GetTimerManager().ClearTimer(HealingTimerHandler);
+
+    SetHealth(FMath::Clamp(Health - Damage, 0.0f, MaxHealth));
     if (IsDead())
     {
         OnDeath.Broadcast();
     }
-}
-
-void USTUHealthComponent::OnActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor) 
-{
-    UE_LOG(HealthComponentLog, Error, TEXT("Collission is finished"));
-    if (AutoHealProperties.AutoHeal)
+    else
     {
-        GetWorld()->GetTimerManager().SetTimer(
-            TimerHandler, this, &USTUHealthComponent::OnAutoHeal, AutoHealProperties.HealUpdateTimer, true, AutoHealProperties.HealDelay);
+        if (AutoHealProperties.AutoHeal)
+        {
+            GetWorld()->GetTimerManager().SetTimer(HealingTimerHandler, this, &USTUHealthComponent::OnAutoHeal,
+                AutoHealProperties.HealUpdateTimer, true, AutoHealProperties.HealDelay);
+        }
     }
 }
 
 void USTUHealthComponent::OnAutoHeal()
 {
+    if (!GetWorld())
+    {
+        return;
+    }
+
     if (Health >= MaxHealth)
     {
-        GetWorld()->GetTimerManager().ClearTimer(TimerHandler);
+        GetWorld()->GetTimerManager().ClearTimer(HealingTimerHandler);
         OnHealthChanged.Broadcast(MaxHealth);
         return;
     }
-    Health = FMath::Clamp(Health + AutoHealProperties.HealModifier, 0.0f, MaxHealth);
+
+    SetHealth(FMath::Clamp(Health + AutoHealProperties.HealModifier, 0.0f, MaxHealth));
+}
+
+void USTUHealthComponent::SetHealth(const float Healing) 
+{
+    Health = Healing;
     OnHealthChanged.Broadcast(Health);
 }
