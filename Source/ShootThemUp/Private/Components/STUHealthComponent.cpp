@@ -3,6 +3,8 @@
 
 #include "Components/STUHealthComponent.h"
 #include "GameFramework/Actor.h"
+#include "Engine/Engine.h"
+#include "TimerManager.h"
 
 DEFINE_LOG_CATEGORY_STATIC(HealthComponentLog, All, All)
 
@@ -25,6 +27,7 @@ void USTUHealthComponent::BeginPlay()
     if (auto Owner = GetOwner())
     {
         Owner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamage);
+        Owner->OnActorBeginOverlap.AddDynamic(this, &USTUHealthComponent::OnActorEndOverlap);
     }
 }
 
@@ -39,4 +42,26 @@ void USTUHealthComponent::OnTakeAnyDamage(
     {
         OnDeath.Broadcast();
     }
+}
+
+void USTUHealthComponent::OnActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor) 
+{
+    UE_LOG(HealthComponentLog, Error, TEXT("Collission is finished"));
+    if (AutoHealProperties.AutoHeal)
+    {
+        GetWorld()->GetTimerManager().SetTimer(
+            TimerHandler, this, &USTUHealthComponent::OnAutoHeal, AutoHealProperties.HealUpdateTimer, true, AutoHealProperties.HealDelay);
+    }
+}
+
+void USTUHealthComponent::OnAutoHeal()
+{
+    if (Health >= MaxHealth)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(TimerHandler);
+        OnHealthChanged.Broadcast(MaxHealth);
+        return;
+    }
+    Health = FMath::Clamp(Health + AutoHealProperties.HealModifier, 0.0f, MaxHealth);
+    OnHealthChanged.Broadcast(Health);
 }
