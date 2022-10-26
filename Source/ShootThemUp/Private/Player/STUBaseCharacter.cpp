@@ -6,6 +6,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/STUCharactermovementComponent.h"
+#include "Components/STUClockComponent.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "GameFramework/Controller.h"
@@ -30,6 +31,11 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 
     HealthTextComponent = CreateDefaultSubobject<UTextRenderComponent>("HealthTextComponent");
     HealthTextComponent->SetupAttachment(GetRootComponent());
+
+    ClockComponent = CreateDefaultSubobject<USTUClockComponent>("ClockComponent");
+
+    ClockTextComponent = CreateDefaultSubobject<UTextRenderComponent>("ClockTextComponent");
+    ClockTextComponent->SetupAttachment(GetRootComponent());
 }
 
 // Called when the game starts or when spawned
@@ -39,6 +45,8 @@ void ASTUBaseCharacter::BeginPlay()
 	
     check(HealthComponent);
     check(HealthTextComponent);
+    check(ClockComponent);
+    check(ClockTextComponent);
     check(GetCharacterMovement());
 
     OnHealthChanged(HealthComponent->GetHealth());
@@ -46,6 +54,9 @@ void ASTUBaseCharacter::BeginPlay()
     HealthComponent->OnHealthChanged.AddUObject(this, &ASTUBaseCharacter::OnHealthChanged);
 
     LandedDelegate.AddDynamic(this, &ASTUBaseCharacter::OnGroundLanded);
+
+    OnTimeChanged(ClockComponent->GetCurrentTime());
+    ClockComponent->OnTimeChanged.AddUObject(this, &ASTUBaseCharacter::OnTimeChanged);
 }
 
 // Called every frame
@@ -143,4 +154,9 @@ void ASTUBaseCharacter::OnHealthChanged(float Health)
 {
     HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%0.f"), Health)));
     // HealthTextComponent->SetText(FString::SanitizeFloat(Health));
+}
+
+void ASTUBaseCharacter::OnTimeChanged(const FString& NewTime) 
+{
+    ClockTextComponent->SetText(FText::FromString(NewTime));
 }

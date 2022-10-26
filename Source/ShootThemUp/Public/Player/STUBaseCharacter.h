@@ -10,6 +10,7 @@ class UCameraComponent;
 class USTUHealthComponent;
 class USpringArmComponent;
 class UTextRenderComponent;
+class USTUClockComponent;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
@@ -29,6 +30,10 @@ protected:
     USTUHealthComponent* HealthComponent;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UTextRenderComponent* HealthTextComponent;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    USTUClockComponent* ClockComponent;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    UTextRenderComponent* ClockTextComponent;
     UPROPERTY(EditDefaultsOnly, Category = "Animation")
     UAnimMontage* DeathAnimMontage;
     UPROPERTY(EditDefaultsOnly, Category = "Movement")
@@ -60,6 +65,7 @@ private:
     UFUNCTION()
     void OnGroundLanded(const FHitResult& Hit);
     void OnHealthChanged(float Health);
+    void OnTimeChanged(const FString& NewTime);
     void OnStartRunning();
     void OnStopRunning();
 };
