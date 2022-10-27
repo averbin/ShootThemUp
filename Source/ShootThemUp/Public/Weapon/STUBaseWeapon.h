@@ -21,5 +21,12 @@ public:
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USkeletalMeshComponent* WeaponMesh;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
+    FName SocketName = "GripSocket";
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    float TraceMaxDistance = 1500.0f;
+
 	virtual void BeginPlay() override;
+
+	void MakeShoot();
 };
