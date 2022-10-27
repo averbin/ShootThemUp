@@ -23,3 +23,8 @@ void ASTUBaseWeapon::BeginPlay()
 
 	check(WeaponMesh);
 }
+
+void ASTUBaseWeapon::Fire() 
+{
+	UE_LOG(LogSTUBaseWeapon, Display, TEXT("Fire"));
+}
