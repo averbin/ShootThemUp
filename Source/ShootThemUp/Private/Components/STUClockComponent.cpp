@@ -1,8 +1,7 @@
 // ShootThemUp Games. All rights reserved
 
-#include <chrono>
-
 #include "Components/STUClockComponent.h"
+#include <chrono>
 DEFINE_LOG_CATEGORY_STATIC(LogSTUClockComponent, All, All)
 
 // Sets default values for this component's properties
