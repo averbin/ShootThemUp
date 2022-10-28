@@ -25,6 +25,8 @@ protected:
     FName SocketName = "GripSocket";
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     float TraceMaxDistance = 1500.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+    float DamageAmount = 10.0f;
 
 	virtual void BeginPlay() override;
 
@@ -35,4 +37,5 @@ protected:
     FVector GetWorldSocketLocation() const;
     bool GetTraceData(FVector& TraceStart, FVector& TraceEnd);
     void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
+    void MakeDamage(FHitResult& HitResult);
 };

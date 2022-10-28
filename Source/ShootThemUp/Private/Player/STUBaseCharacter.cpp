@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/STUCharactermovementComponent.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
@@ -134,6 +135,11 @@ void ASTUBaseCharacter::OnDeath()
     if (Controller)
     {
         Controller->ChangeState(NAME_Spectating);
+    }
+
+    if (auto Capsule = GetCapsuleComponent())
+    {
+        Capsule->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
     }
 }
 
