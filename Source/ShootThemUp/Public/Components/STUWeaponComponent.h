@@ -8,22 +8,23 @@
 
 class ASTUBaseWeapon;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUWeaponComponent : public UActorComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
-	USTUWeaponComponent();
+public:
+    // Sets default values for this component's properties
+    USTUWeaponComponent();
 
-	void Fire();
+    void StartFire();
+    void StopFire();
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+    // Called when the game starts
+    virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     TSubclassOf<ASTUBaseWeapon> WeaponClass;
 
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")

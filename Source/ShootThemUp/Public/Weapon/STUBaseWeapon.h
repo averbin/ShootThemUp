@@ -11,12 +11,13 @@ class USkeletalMeshComponent;
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	ASTUBaseWeapon();
+    GENERATED_BODY()
 
-	virtual void Fire();
+public:
+    ASTUBaseWeapon();
+
+    virtual void StartFire();
+    virtual void StopFire();
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -27,10 +28,14 @@ protected:
     float TraceMaxDistance = 1500.0f;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
     float DamageAmount = 10.0f;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    float TimeBetweenShots = 0.1f;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    float BulletsSpread = 1.5f;
 
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
-	void MakeShoot();
+    void MakeShoot();
 
     APlayerController* GetPlayerController() const;
     bool GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation);
@@ -38,4 +43,7 @@ protected:
     bool GetTraceData(FVector& TraceStart, FVector& TraceEnd);
     void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
     void MakeDamage(FHitResult& HitResult);
+
+private:
+    FTimerHandle ShootTimerHandle;
 };
