@@ -4,6 +4,8 @@
 
 #include "Components/SphereComponent.h"
 
+#include "GameFramework/ProjectileMovementComponent.h"
+
 // Sets default values
 ASTUProjectile::ASTUProjectile()
 {
@@ -13,6 +15,10 @@ ASTUProjectile::ASTUProjectile()
     CollisionComponent = CreateDefaultSubobject<USphereComponent>("CollisionComponent");
     CollisionComponent->InitSphereRadius(5.0);
     SetRootComponent(CollisionComponent);
+
+    MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComponent");
+    MovementComponent->InitialSpeed = 3000.0f;
+    MovementComponent->ProjectileGravityScale = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -21,4 +27,8 @@ void ASTUProjectile::BeginPlay()
     Super::BeginPlay();
 
     check(CollisionComponent);
+    check(MovementComponent);
+
+    MovementComponent->Velocity = ShootDirection * MovementComponent->InitialSpeed;
+    SetLifeSpan(5.0f);
 }
