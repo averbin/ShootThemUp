@@ -20,14 +20,12 @@ public:
     virtual void StopFire();
 
 protected:
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
     USkeletalMeshComponent* WeaponMesh;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     FName SocketName = "GripSocket";
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     float TraceMaxDistance = 1500.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
-    float DamageAmount = 10.0f;
 
     virtual void BeginPlay() override;
 
@@ -38,5 +36,4 @@ protected:
     FVector GetWorldSocketLocation() const;
     virtual bool GetTraceData(FVector& TraceStart, FVector& TraceEnd);
     void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
-    void MakeDamage(FHitResult& HitResult);
 };

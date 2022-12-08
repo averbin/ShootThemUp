@@ -3,6 +3,8 @@
 #include "Weapon/STUProjectile.h"
 
 #include "Components/SphereComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "GameFramework/ProjectileMovementComponent.h"
 
@@ -14,6 +16,8 @@ ASTUProjectile::ASTUProjectile()
 
     CollisionComponent = CreateDefaultSubobject<USphereComponent>("CollisionComponent");
     CollisionComponent->InitSphereRadius(5.0);
+    CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
     SetRootComponent(CollisionComponent);
 
     MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComponent");
@@ -30,5 +34,36 @@ void ASTUProjectile::BeginPlay()
     check(MovementComponent);
 
     MovementComponent->Velocity = ShootDirection * MovementComponent->InitialSpeed;
-    SetLifeSpan(5.0f);
+    CollisionComponent->IgnoreActorWhenMoving(GetOwner(), true);
+    CollisionComponent->OnComponentHit.AddDynamic(this, &ASTUProjectile::OnProjectileHit);
+    SetLifeSpan(LifeSpan);
+}
+
+void ASTUProjectile::OnProjectileHit(
+    UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    if (!GetWorld())
+        return;
+
+    MovementComponent->StopMovementImmediately();
+
+    UGameplayStatics::ApplyRadialDamage(GetWorld(), //
+        DamageAmount,                               //
+        GetActorLocation(),                         //
+        DamageRadious,                              //
+        UDamageType::StaticClass(),                 //
+        {},                                         //
+        this,                                       //
+        GetController(),                            //
+        DoFullDamage);
+
+    DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadious, 24, FColor::Red, false, 5.0f);
+
+    Destroy();
+}
+
+AController* ASTUProjectile::GetController() const
+{
+    const auto Pawn = Cast<APawn>(GetOwner());
+    return Pawn ? Pawn->GetController() : nullptr;
 }

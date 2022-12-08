@@ -58,3 +58,11 @@ bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
 
     return false;
 }
+
+void ASTURifleWeapon::MakeDamage(FHitResult& HitResult)
+{
+    if (const auto Actor = HitResult.GetActor())
+    {
+        Actor->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerController(), this);
+    }
+}

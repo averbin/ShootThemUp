@@ -30,6 +30,7 @@ void ASTULauncherWeapon::MakeShoot()
     if (auto ProjectTile = GetWorld()->SpawnActorDeferred<ASTUProjectile>(ProjectTileClass, SpawnTransform))
     {
         ProjectTile->SetShootDirection(Direction);
+        ProjectTile->SetOwner(GetOwner());
         ProjectTile->FinishSpawning(SpawnTransform);
     }
 }

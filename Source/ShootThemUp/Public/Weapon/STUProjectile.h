@@ -21,13 +21,26 @@ public:
     void SetShootDirection(const FVector& Direction) { ShootDirection = Direction; }
 
 protected:
-    UPROPERTY(VisibleDefaultsOnly, Category = "Weapon")
+    UPROPERTY(VisibleAnywhere, Category = "Weapon")
     USphereComponent* CollisionComponent;
-    UPROPERTY(VisibleDefaultsOnly, Category = "Weapon")
+    UPROPERTY(VisibleAnywhere, Category = "Weapon")
     UProjectileMovementComponent* MovementComponent;
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    float DamageRadious = 300.0f;
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    float DamageAmount = 50.0f;
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    float LifeSpan = 5.0f;
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    bool DoFullDamage = false;
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
 private:
+
+    AController* GetController() const;
+    UFUNCTION()
+    void OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
+        UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
     FVector ShootDirection;
 };
