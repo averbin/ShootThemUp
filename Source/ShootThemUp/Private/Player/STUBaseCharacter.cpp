@@ -81,6 +81,7 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
     PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &USTUWeaponComponent::StartFire);
     PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USTUWeaponComponent::StopFire);
+    PlayerInputComponent->BindAction("NextWeapon", IE_Released, WeaponComponent, &USTUWeaponComponent::NextWeapon);
 }
 
 bool ASTUBaseCharacter::IsRunning() const
@@ -142,6 +143,8 @@ void ASTUBaseCharacter::OnDeath()
     {
         Capsule->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
     }
+
+    WeaponComponent->StopFire();
 }
 
 void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit) 
