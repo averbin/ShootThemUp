@@ -46,6 +46,7 @@ private:
     TArray<ASTUBaseWeapon*> Weapons;
 
     int32 CurrentWeaponIndex = 0;
+    bool EquipAnimInProgress = false;
 
     void SpawnWeapons();
     void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SckeletonMesh, const FName& SocketName);
@@ -55,4 +56,7 @@ private:
 
     void InitAnimations();
     void OnEquipFinished(USkeletalMeshComponent* MeshComp);
+
+    bool CanFire() const;
+    bool CanEquip() const;
 };
