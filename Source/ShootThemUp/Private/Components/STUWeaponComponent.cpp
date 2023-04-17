@@ -23,11 +23,11 @@ void USTUWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+    //checkf(WeaponData.Num() == WeaponNum, TEXT("Our character can hold only %i weapon items"), WeaponNum);
+
     InitAnimations();
     SpawnWeapons();
     EquipWeapon(CurrentWeaponIndex);
-
-    checkf(WeaponData.Num() == WeaponNum, TEXT("Our character can hold only %i weapon items"), WeaponNum);
 }
 
 void USTUWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason) 
@@ -145,8 +145,8 @@ void USTUWeaponComponent::InitAnimations()
     }
     else
     {
-        UE_LOG(LogWeaponComponent, Error, TEXT("Equip anim notify is forgotten to set"));
-        checkNoEntry();
+        //UE_LOG(LogWeaponComponent, Error, TEXT("Equip anim notify is forgotten to set"));
+        //checkNoEntry();
     }
 
     for (const auto OneWeaponData : WeaponData)
