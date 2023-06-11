@@ -31,6 +31,8 @@ class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 public:
     USTUHealthComponent();
 
+    UFUNCTION(BlueprintCallable)
+    float GetHealthPercent() const { return Health / MaxHealth; }
     float GetHealth() const { return Health; }
     
     UFUNCTION(BlueprintCallable)
