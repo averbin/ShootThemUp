@@ -7,15 +7,9 @@
 
 float USTUPlayerHUDWidget::GetHealthPercent() const
 {
-    if (const auto Player = GetOwningPlayerPawn())
+    if (const auto HealthComponent = GetHealthComponent())
     {
-        if (const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass()))
-        {
-            if (const auto HealthComponent = Cast<USTUHealthComponent>(Component))
-            {
-                return HealthComponent->GetHealthPercent();
-            }
-        }
+        return HealthComponent->GetHealthPercent();
     }
 
     return 0.f;
@@ -23,15 +17,66 @@ float USTUPlayerHUDWidget::GetHealthPercent() const
 
 bool USTUPlayerHUDWidget::GetWeaponUIData(FWeaponUIData& UIData) const
 {
+    if (const auto WeaponComponent = GetWeaponComponent())
+    {
+        return WeaponComponent->GetWeaponUIData(UIData);
+    }
+
+    return false;
+}
+
+bool USTUPlayerHUDWidget::GetWeaponAmmoData(FAmmoData& AmmoData) const
+{
+    if (const auto WeaponComponent = GetWeaponComponent())
+    {
+        return WeaponComponent->GetWeaponAmmoData(AmmoData);
+    }
+
+    return false;
+}
+
+USTUWeaponComponent* USTUPlayerHUDWidget::GetWeaponComponent() const
+{
     if (const auto Player = GetOwningPlayerPawn())
     {
         if (const auto Component = Player->GetComponentByClass(USTUWeaponComponent::StaticClass()))
         {
-            if (const auto WeaponComponent = Cast<USTUWeaponComponent>(Component))
-            {
-                return WeaponComponent->GetWeaponUIData(UIData);
-            }
+            return Cast<USTUWeaponComponent>(Component);
         }
     }
+
+    return nullptr;
+}
+
+bool USTUPlayerHUDWidget::IsPlayerAlive() const 
+{
+    if (auto HealthComponent = GetHealthComponent())
+    {
+        return HealthComponent->IsDead();
+    }
+
+    return false;
+}
+
+USTUHealthComponent* USTUPlayerHUDWidget::GetHealthComponent() const
+{
+    if (const auto Player = GetOwningPlayerPawn())
+    {
+        if (const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass()))
+        {
+            return Cast<USTUHealthComponent>(Component);
+        }
+    }
+
+    return nullptr;
+}
+
+bool USTUPlayerHUDWidget::IsPlayerSpectationg() const 
+{
+    if (const auto Controller = GetOwningPlayer())
+    {
+        return Controller->GetStateName() == NAME_Spectating;
+    }
+
     return false;
 }
