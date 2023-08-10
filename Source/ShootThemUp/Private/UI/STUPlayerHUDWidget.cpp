@@ -52,7 +52,7 @@ bool USTUPlayerHUDWidget::IsPlayerAlive() const
 {
     if (auto HealthComponent = GetHealthComponent())
     {
-        return HealthComponent->IsDead();
+        return !HealthComponent->IsDead();
     }
 
     return false;
