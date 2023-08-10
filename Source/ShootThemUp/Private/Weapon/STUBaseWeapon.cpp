@@ -133,7 +133,6 @@ void ASTUBaseWeapon::ChangeClip()
 
 bool ASTUBaseWeapon::CanReload() const 
 {
-    UE_LOG(LogSTUBaseWeapon, Display, TEXT("_-_-_ : Can reload: %i"), CurrentAmmo.Bullets <= DefaultAmmo.Bullets);
     return CurrentAmmo.Bullets <= DefaultAmmo.Bullets && CurrentAmmo.Clips > 0;
 }
 
