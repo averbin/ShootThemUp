@@ -4,6 +4,7 @@
 #include "UI/STUPlayerHUDWidget.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
+#include "STUUtils.h"
 
 float USTUPlayerHUDWidget::GetHealthPercent() const
 {
@@ -37,15 +38,7 @@ bool USTUPlayerHUDWidget::GetWeaponAmmoData(FAmmoData& AmmoData) const
 
 USTUWeaponComponent* USTUPlayerHUDWidget::GetWeaponComponent() const
 {
-    if (const auto Player = GetOwningPlayerPawn())
-    {
-        if (const auto Component = Player->GetComponentByClass(USTUWeaponComponent::StaticClass()))
-        {
-            return Cast<USTUWeaponComponent>(Component);
-        }
-    }
-
-    return nullptr;
+    return STUUtils::GetSTUPlayerController<USTUWeaponComponent>(GetOwningPlayerPawn());
 }
 
 bool USTUPlayerHUDWidget::IsPlayerAlive() const 
@@ -60,15 +53,7 @@ bool USTUPlayerHUDWidget::IsPlayerAlive() const
 
 USTUHealthComponent* USTUPlayerHUDWidget::GetHealthComponent() const
 {
-    if (const auto Player = GetOwningPlayerPawn())
-    {
-        if (const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass()))
-        {
-            return Cast<USTUHealthComponent>(Component);
-        }
-    }
-
-    return nullptr;
+    return STUUtils::GetSTUPlayerController<USTUHealthComponent>(GetOwningPlayerPawn());
 }
 
 bool USTUPlayerHUDWidget::IsPlayerSpectationg() const 
