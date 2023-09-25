@@ -37,6 +37,38 @@ void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor)
 {
     Super::NotifyActorBeginOverlap(OtherActor);
 
-    UE_LOG(LogBasePickup, Display, TEXT("Pickup was taken"));
-    Destroy();
+    if (const auto PlayerPawn = Cast<APawn>(OtherActor))
+    {
+        if (GivePickupTo(PlayerPawn))
+        {
+            UE_LOG(LogBasePickup, Display, TEXT("Pickup was taken"));
+            PickupWasTaken();
+        }
+    }
+}
+
+bool ASTUBasePickup::GivePickupTo(APawn* PlayerPawn)
+{
+    return false;
+}
+
+void ASTUBasePickup::SetCollisionAndVisability(const ECollisionResponse CollisionType, const bool IsVisible)
+{
+    CollisionComponent->SetCollisionResponseToAllChannels(CollisionType);
+    if (GetRootComponent())
+    {
+        GetRootComponent()->SetVisibility(IsVisible, true);
+    }
+}
+
+void ASTUBasePickup::PickupWasTaken()
+{
+    SetCollisionAndVisability(ECollisionResponse::ECR_Ignore, false);
+    FTimerHandle RespawnTimerHandler;
+    GetWorldTimerManager().SetTimer(RespawnTimerHandler, this, &ASTUBasePickup::Respawn, RespawnTime);
+}
+
+void ASTUBasePickup::Respawn()
+{
+    SetCollisionAndVisability(ECollisionResponse::ECR_Overlap, true);
 }

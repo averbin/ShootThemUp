@@ -20,6 +20,9 @@ public:
 protected:
     USphereComponent* CollisionComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup")
+    float RespawnTime = 5.0f;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -27,4 +30,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
     virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+private:
+    virtual bool GivePickupTo(APawn* PlayerPawn);
+    void SetCollisionAndVisability(const ECollisionResponse CollisionType, const bool IsVisible);
+    void PickupWasTaken();
+    void Respawn();
 };
