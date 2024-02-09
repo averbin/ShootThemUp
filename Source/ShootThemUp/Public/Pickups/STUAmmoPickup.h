@@ -8,9 +8,7 @@
 
 class ASTUBasePickup;
 class ASTUBaseWeapon;
-    /**
- *
- */
+
 UCLASS()
 class SHOOTTHEMUP_API ASTUAmmoPickup : public ASTUBasePickup
 {
