@@ -75,3 +75,13 @@ void USTUHealthComponent::SetHealth(const float Healing)
     Health = Healing;
     OnHealthChanged.Broadcast(Health);
 }
+
+void USTUHealthComponent::Healing(const float Healing) 
+{
+    SetHealth(FMath::Clamp(Health + Healing, Health, MaxHealth));
+}
+
+bool USTUHealthComponent::IsHealthFull() const 
+{
+    return FMath::IsNearlyEqual(Health, MaxHealth);
+}

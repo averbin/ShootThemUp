@@ -39,6 +39,8 @@ public:
     bool IsDead() const { return Health <= 0.0f; }
     UFUNCTION()
     void OnAutoHeal();
+    void Healing(const float Healing);
+    bool IsHealthFull() const;
 
     FOnDeath OnDeath;
     FOnHealthChanged OnHealthChanged;
