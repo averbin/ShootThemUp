@@ -32,8 +32,10 @@ public:
     virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 private:
+    float RotationYaw = 0.f;
     virtual bool GivePickupTo(APawn* PlayerPawn);
     void SetCollisionAndVisability(const ECollisionResponse CollisionType, const bool IsVisible);
     void PickupWasTaken();
     void Respawn();
+    void GenerateRotationYaw();
 };

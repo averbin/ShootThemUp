@@ -24,13 +24,14 @@ void ASTUBasePickup::BeginPlay()
 {
 	Super::BeginPlay();
 	
+    GenerateRotationYaw();
 }
 
 // Called every frame
 void ASTUBasePickup::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+    AddActorLocalRotation(FRotator(0.f, RotationYaw, 0.f));
 }
 
 void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor) 
@@ -71,4 +72,11 @@ void ASTUBasePickup::PickupWasTaken()
 void ASTUBasePickup::Respawn()
 {
     SetCollisionAndVisability(ECollisionResponse::ECR_Overlap, true);
+    GenerateRotationYaw();
+}
+
+void ASTUBasePickup::GenerateRotationYaw() 
+{
+    const auto Direction = FMath::RandBool() ? 1.f : -1.f;
+    RotationYaw = FMath::RandRange(1.f, 2.f) * Direction;
 }
