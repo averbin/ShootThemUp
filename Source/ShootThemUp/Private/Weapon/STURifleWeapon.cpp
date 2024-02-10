@@ -4,6 +4,12 @@
 #include "Weapon/STURifleWeapon.h"
 
 #include "DrawDebugHelpers.h"
+#include "Weapon/Components/STUWeaponFXComponent.h"
+
+ASTURifleWeapon::ASTURifleWeapon() 
+{
+    WeaponFXComponent = CreateDefaultSubobject<USTUWeaponFXComponent>("WeaponFXComponent");
+}
 
 void ASTURifleWeapon::StartFire()
 {
@@ -15,6 +21,12 @@ void ASTURifleWeapon::StartFire()
 void ASTURifleWeapon::StopFire()
 {
     GetWorld()->GetTimerManager().ClearTimer(ShootTimerHandle);
+}
+
+void ASTURifleWeapon::BeginPlay() 
+{
+    Super::BeginPlay();
+    check(WeaponFXComponent);
 }
 
 void ASTURifleWeapon::MakeShoot()
@@ -38,8 +50,9 @@ void ASTURifleWeapon::MakeShoot()
 
     if (HitResult.bBlockingHit)
     {
-        DrawDebugLine(GetWorld(), GetWorldSocketLocation(), HitResult.ImpactPoint, FColor::Blue, false, 3.0f, 0, 3.0f);
-        DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 20.0f, FColor::Red, false, 5.0f);
+        //DrawDebugLine(GetWorld(), GetWorldSocketLocation(), HitResult.ImpactPoint, FColor::Blue, false, 3.0f, 0, 3.0f);
+        //DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 20.0f, FColor::Red, false, 5.0f);
+        WeaponFXComponent->PlayImpactFX(HitResult);
         MakeDamage(HitResult);
     }
     else
