@@ -26,7 +26,7 @@ protected:
     float BulletsSpread = 1.5f;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
     float DamageAmount = 10.0f;
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "FX")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FX")
     USTUWeaponFXComponent* WeaponFXComponent;
 
     virtual void BeginPlay() override;
