@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "STUCoreTypes.h"
 #include "STUWeaponFXComponent.generated.h"
 
 class UNiagaraSystem;
@@ -20,9 +21,9 @@ public:
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FX")
-    UNiagaraSystem* DefaultEffect;
+    FImpactData DefaultImpactData;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FX")
-    TMap<UPhysicalMaterial*, UNiagaraSystem*> EffectsMap;
+    TMap<UPhysicalMaterial*, FImpactData> ImpactDataMap;
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
