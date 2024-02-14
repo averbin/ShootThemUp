@@ -8,6 +8,8 @@
 #include "STUCoreTypes.h"
 #include "STUHealthComponent.generated.h"
 
+class UCameraShakeBase;
+
 USTRUCT(BlueprintType) 
 struct FAutoHealProperties
 {
@@ -50,6 +52,8 @@ protected:
     float MaxHealth = 100.0f;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
     FAutoHealProperties AutoHealProperties;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+    TSubclassOf<UCameraShakeBase> CameraShake;
     // Called when the game starts
     virtual void BeginPlay() override;
 
@@ -60,4 +64,6 @@ private:
     void OnTakeAnyDamage(
         AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
     void SetHealth(const float Healing);
+
+    void PlayCameraShake();
 };
