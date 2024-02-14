@@ -67,7 +67,7 @@ void USTUHealthComponent::OnAutoHeal()
     if (Health >= MaxHealth)
     {
         GetWorld()->GetTimerManager().ClearTimer(HealingTimerHandler);
-        OnHealthChanged.Broadcast(MaxHealth);
+        OnHealthChanged.Broadcast(MaxHealth, 0.f);
         return;
     }
 
@@ -76,8 +76,11 @@ void USTUHealthComponent::OnAutoHeal()
 
 void USTUHealthComponent::SetHealth(const float Healing) 
 {
-    Health = Healing;
-    OnHealthChanged.Broadcast(Health);
+    const auto NextHealth = FMath::Clamp(Healing, 0.f, MaxHealth);
+    const auto DeltaHealth = NextHealth - Health;
+
+    Health = NextHealth;
+    OnHealthChanged.Broadcast(Health, DeltaHealth);
 }
 
 void USTUHealthComponent::Healing(const float Healing) 

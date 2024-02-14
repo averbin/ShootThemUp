@@ -27,8 +27,13 @@ public:
     bool IsPlayerAlive() const;
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool IsPlayerSpectationg() const;
+    UFUNCTION(BlueprintImplementableEvent, Category = "UI")
+    void OnTakeDamage();
+
+    bool Initialize() override;
 
 private:
+    void OnHealthChanged(float Health, float Delta);
     USTUWeaponComponent* GetWeaponComponent() const;
     USTUHealthComponent* GetHealthComponent() const;
 };

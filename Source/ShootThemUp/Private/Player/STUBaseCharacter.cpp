@@ -49,7 +49,7 @@ void ASTUBaseCharacter::BeginPlay()
     check(GetCharacterMovement());
     check(GetMesh());
 
-    OnHealthChanged(HealthComponent->GetHealth());
+    OnHealthChanged(HealthComponent->GetHealth(), 0.f);
     HealthComponent->OnDeath.AddUObject(this, &ASTUBaseCharacter::OnDeath);
     HealthComponent->OnHealthChanged.AddUObject(this, &ASTUBaseCharacter::OnHealthChanged);
 
@@ -164,7 +164,7 @@ void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
     TakeDamage(FinalDamage, FDamageEvent{}, nullptr, nullptr);
 }
 
-void ASTUBaseCharacter::OnHealthChanged(float Health) 
+void ASTUBaseCharacter::OnHealthChanged(float Health, float /* Delta*/)
 {
     HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%0.f"), Health)));
     // HealthTextComponent->SetText(FString::SanitizeFloat(Health));
