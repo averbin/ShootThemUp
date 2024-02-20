@@ -5,22 +5,26 @@
 
 #include "DrawDebugHelpers.h"
 #include "Weapon/Components/STUWeaponFXComponent.h"
+#include "NiagaraComponent.h"
 
 ASTURifleWeapon::ASTURifleWeapon() 
 {
     WeaponFXComponent = CreateDefaultSubobject<USTUWeaponFXComponent>("WeaponFXComponent");
+    SocketName = TEXT("MuzzleFlashSocket");
 }
 
 void ASTURifleWeapon::StartFire()
 {
     if (!GetWorld())
         return;
+    InitMuzzleFX();
     GetWorld()->GetTimerManager().SetTimer(ShootTimerHandle, this, &ASTURifleWeapon::MakeShoot, TimeBetweenShots, true);
 }
 
 void ASTURifleWeapon::StopFire()
 {
     GetWorld()->GetTimerManager().ClearTimer(ShootTimerHandle);
+    SetMuzzleFXVisability(false);
 }
 
 void ASTURifleWeapon::BeginPlay() 
@@ -85,5 +89,23 @@ void ASTURifleWeapon::MakeDamage(FHitResult& HitResult)
     if (const auto Actor = HitResult.GetActor())
     {
         Actor->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerController(), this);
+    }
+}
+
+void ASTURifleWeapon::InitMuzzleFX() 
+{
+    if (!MuzzleFXComponent)
+    {
+        MuzzleFXComponent = SpawnMuzzleFX();
+    }
+    SetMuzzleFXVisability(true);
+}
+
+void ASTURifleWeapon::SetMuzzleFXVisability(bool Visible) 
+{
+    if (MuzzleFXComponent)
+    {
+        MuzzleFXComponent->SetPaused(!Visible);
+        MuzzleFXComponent->SetVisibility(Visible, true);
     }
 }
