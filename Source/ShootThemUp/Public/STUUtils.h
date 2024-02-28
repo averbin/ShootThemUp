@@ -1,16 +1,16 @@
 #pragma once
 
-class APawn;
+class AActor;
 
 class STUUtils
 {
 public:
     template <class T> 
-    static T* GetSTUPlayerController(APawn* PlayerPawn) 
+    static T* GetSTUPlayerController(AActor* PlayerActor) 
     {
-        if (PlayerPawn)
+        if (PlayerActor)
         {
-            if (const auto Component = PlayerPawn->GetComponentByClass(T::StaticClass()))
+            if (const auto Component = PlayerActor->GetComponentByClass(T::StaticClass()))
             {
                 return Cast<T>(Component);
             }
