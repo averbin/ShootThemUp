@@ -18,7 +18,6 @@ void ASTURifleWeapon::StartFire()
 {
     if (!GetWorld())
         return;
-    InitMuzzleFX();
     GetWorld()->GetTimerManager().SetTimer(ShootTimerHandle, this, &ASTURifleWeapon::MakeShoot, TimeBetweenShots, true);
 }
 
@@ -36,12 +35,13 @@ void ASTURifleWeapon::BeginPlay()
 
 void ASTURifleWeapon::MakeShoot()
 {
-    if (!GetWorld() && !IsAmmoEmpty())
+    if (IsAmmoEmpty())
     {
         StopFire();
         return;
     }
 
+    InitMuzzleFX();
     FVector TraceStart;
     FVector TraceEnd;
     if (!GetTraceData(TraceStart, TraceEnd))

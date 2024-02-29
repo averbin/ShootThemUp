@@ -125,7 +125,7 @@ void ASTUBaseWeapon::DecreaseAmmo()
 
 bool ASTUBaseWeapon::IsAmmoEmpty() const
 {
-    return (!CurrentAmmo.Infinite && CurrentAmmo.Clips == 0 && IsClipEmpty());
+    return CurrentAmmo.Clips == 0 && IsClipEmpty();
 }
 
 bool ASTUBaseWeapon::IsClipEmpty() const
