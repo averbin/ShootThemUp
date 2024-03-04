@@ -30,7 +30,8 @@ public class ShootThemUp : ModuleRules
 			"ShootThemUp/Public/Animations",
 			"ShootThemUp/Public/Pickups",
             "ShootThemUp/Public/AI",
-			"ShootThemUp/Public/AI/Tasks",
+            "ShootThemUp/Public/AI/EQS",
+            "ShootThemUp/Public/AI/Tasks",
 			"ShootThemUp/Public/AI/Services"});
 
 		// Uncomment if you are using Slate UI
