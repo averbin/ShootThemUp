@@ -162,6 +162,22 @@ bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, i
     return false;
 }
 
+bool USTUWeaponComponent::NeedAmmo() const
+{
+    bool NeedAmmo = false;
+    for (auto Weapon : Weapons)
+    {
+        NeedAmmo = Weapon->IsAmmoEmpty();
+        break;
+    }
+    return NeedAmmo;
+}
+
+ASTUBaseWeapon* USTUWeaponComponent::GetCurrentWeapon() const
+{
+    return CurrentWeapon;
+}
+
 void USTUWeaponComponent::PlayAnimMontage(UAnimMontage* Animation) 
 {
     auto Character = Cast<ACharacter>(GetOwner());

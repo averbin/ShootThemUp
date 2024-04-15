@@ -26,6 +26,8 @@ public:
     bool GetWeaponUIData(FWeaponUIData& UIData) const;
     bool GetWeaponAmmoData(FAmmoData& AmmoData) const;
     bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+    bool NeedAmmo() const;
+    ASTUBaseWeapon* GetCurrentWeapon() const;
 
 protected:
     // Called when the game starts
