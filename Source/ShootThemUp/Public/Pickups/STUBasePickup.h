@@ -30,9 +30,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
     virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+    bool CouldBeTaken() const;
 
 private:
     float RotationYaw = 0.f;
+    FTimerHandle RespawnTimerHandler;
     virtual bool GivePickupTo(APawn* PlayerPawn);
     void SetCollisionAndVisability(const ECollisionResponse CollisionType, const bool IsVisible);
     void PickupWasTaken();

@@ -48,6 +48,11 @@ void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor)
     }
 }
 
+bool ASTUBasePickup::CouldBeTaken() const
+{
+    return !GetWorldTimerManager().IsTimerActive(RespawnTimerHandler);
+}
+
 bool ASTUBasePickup::GivePickupTo(APawn* PlayerPawn)
 {
     return false;
@@ -65,7 +70,6 @@ void ASTUBasePickup::SetCollisionAndVisability(const ECollisionResponse Collisio
 void ASTUBasePickup::PickupWasTaken()
 {
     SetCollisionAndVisability(ECollisionResponse::ECR_Ignore, false);
-    FTimerHandle RespawnTimerHandler;
     GetWorldTimerManager().SetTimer(RespawnTimerHandler, this, &ASTUBasePickup::Respawn, RespawnTime);
 }
 
