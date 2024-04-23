@@ -36,6 +36,8 @@ private:
     void SpawnBots();
     void StartRound();
     void GameTimerUpdate();
+    void ResetPlayers();
+    void ResetOnePlayer(AController* Controller);
 
     int32 CurrentRound = 1;
     int32 RoundCountDown = 0;
