@@ -89,7 +89,7 @@ void ASTUGameModeBase::ResetOnePlayer(AController* Controller)
 {
     if (Controller && Controller->GetPawn())
     {
-        Controller->Reset();
+        Controller->GetPawn()->Reset();
     }
     RestartPlayer(Controller);
 }
