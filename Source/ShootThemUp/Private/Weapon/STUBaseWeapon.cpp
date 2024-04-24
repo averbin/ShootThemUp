@@ -110,7 +110,7 @@ void ASTUBaseWeapon::DecreaseAmmo()
 {
     if (CurrentAmmo.Bullets == 0)
     {
-        UE_LOG(LogSTUBaseWeapon, Error, TEXT("_-_-_ : No more Bullets"));
+        //UE_LOG(LogSTUBaseWeapon, Error, TEXT("_-_-_ : No more Bullets"));
         return;
     }
 
@@ -144,13 +144,13 @@ void ASTUBaseWeapon::ChangeClip()
     {
         if (CurrentAmmo.Clips == 0)
         {
-            UE_LOG(LogSTUBaseWeapon, Error, TEXT("_-_-_ : No more Clips") );
+            //UE_LOG(LogSTUBaseWeapon, Error, TEXT("_-_-_ : No more Clips") );
             return;
         }
         CurrentAmmo.Clips--;
     }
     CurrentAmmo.Bullets = DefaultAmmo.Bullets;
-    UE_LOG(LogSTUBaseWeapon, Display, TEXT("_-_-_ : Change Clip"));
+    //UE_LOG(LogSTUBaseWeapon, Display, TEXT("_-_-_ : Change Clip"));
 }
 
 bool ASTUBaseWeapon::CanReload() const 
@@ -162,7 +162,7 @@ void ASTUBaseWeapon::LogAmmo()
 {
     FString AmmoInfo = "Ammo: " + FString::FromInt(CurrentAmmo.Bullets) + " / ";
     AmmoInfo += CurrentAmmo.Infinite ? "Infinite" : FString::FromInt(CurrentAmmo.Clips);
-    UE_LOG(LogSTUBaseWeapon, Display, TEXT("%s"), *AmmoInfo);
+    //UE_LOG(LogSTUBaseWeapon, Display, TEXT("%s"), *AmmoInfo);
 }
 
 bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
