@@ -12,6 +12,7 @@
 #include "Components/TextRenderComponent.h"
 #include "GameFramework/Controller.h"
 #include "Weapon/STUBaseWeapon.h"
+#include "STUPlayerState.h"
 
 DEFINE_LOG_CATEGORY_STATIC(BaseCharacterLog, All, All)
 
@@ -42,8 +43,8 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 // Called when the game starts or when spawned
 void ASTUBaseCharacter::BeginPlay()
 {
-	Super::BeginPlay();
-	
+    Super::BeginPlay();
+
     check(HealthComponent);
     check(HealthTextComponent);
     check(GetCharacterMovement());
@@ -100,6 +101,15 @@ float ASTUBaseCharacter::GetMovementDirection() const
     const auto CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
     const auto Degrees = FMath::RadiansToDegrees(AngleBetween);
     return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
+}
+
+void ASTUBaseCharacter::SetPlayerColor(const FLinearColor& NewColor) 
+{
+    PlayerTeamColor = NewColor;
+    const auto MaterialInst = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);
+    if (!MaterialInst)
+        return;
+    MaterialInst->SetVectorParameterValue(MaterialColorName, NewColor);
 }
 
 void ASTUBaseCharacter::MoveForward(float Amount) 
