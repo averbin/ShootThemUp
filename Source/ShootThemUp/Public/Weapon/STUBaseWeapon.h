@@ -52,7 +52,6 @@ protected:
 
     virtual void MakeShoot();
 
-    APlayerController* GetPlayerController() const;
     bool GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation);
     FVector GetWorldSocketLocation() const;
     virtual bool GetTraceData(FVector& TraceStart, FVector& TraceEnd);

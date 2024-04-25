@@ -48,4 +48,5 @@ private:
     void InitMuzzleFX();
     void SetMuzzleFXVisability(bool Visible);
     void SpawnTraceFX(const FVector& StartPoint, const FVector& EndPoint);
+    AController* GetController() const;
 };
