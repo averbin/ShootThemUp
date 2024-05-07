@@ -24,6 +24,11 @@ public:
 
     void Killed(AController* KillerController, AController* VictimController);
 
+    FGameData GetGameData() const { return GameData; }
+    int32 GetCurrentRound() const { return CurrentRound; }
+    int32 GetRemainingTimeInSeconds() const { return RoundCountDown; }
+    void RespawnRequest(AController* Controller);
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Game")
     TSubclassOf<AAIController> AIControllerClass;
@@ -37,6 +42,7 @@ protected:
 private:
     void SpawnBots();
     void StartRound();
+    void StartRespawn(AController* Controller);
     void GameTimerUpdate();
     void ResetPlayers();
     void ResetOnePlayer(AController* Controller);
