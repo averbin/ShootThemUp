@@ -24,6 +24,11 @@ void USTURespawnComponent::Respawn(int32 RespawnTime)
     GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &USTURespawnComponent::RespawnTimerUpdate, 1.0f, true);
 }
 
+bool USTURespawnComponent::IsRespawnInProgress() const
+{
+    return GetWorld() && GetWorld()->GetTimerManager().IsTimerActive(TimerHandle);
+}
+
 
 // Called when the game starts
 void USTURespawnComponent::BeginPlay()
@@ -45,7 +50,7 @@ void USTURespawnComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void USTURespawnComponent::RespawnTimerUpdate() 
 {
-    if (--RespawnCountDown)
+    if (--RespawnCountDown == 0)
     {
         if (!GetWorld())
             return;
