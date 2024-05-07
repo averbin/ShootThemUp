@@ -82,7 +82,7 @@ void ASTUGameModeBase::StartRound()
 
 void ASTUGameModeBase::StartRespawn(AController* Controller) 
 {
-    const auto IsRespawnAvailable = RoundCountDown > MinRoundTimeForRespawn;
+    const auto IsRespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
     if (!IsRespawnAvailable)
         return;
 
