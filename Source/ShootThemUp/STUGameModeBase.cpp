@@ -2,7 +2,7 @@
 
 
 #include "STUGameModeBase.h"
-#include "Player/STUBaseCharacter.h"
+#include "Player/STUPlayerCharacter.h"
 #include "Player/STUPlayerController.h"
 #include "UI/STUGameHUD.h"
 #include "AIController.h"
@@ -17,7 +17,7 @@ constexpr static int32 MinRoundTimeForRespawn = 10;
 
 ASTUGameModeBase::ASTUGameModeBase() 
 {
-    DefaultPawnClass = ASTUBaseCharacter::StaticClass();
+    DefaultPawnClass = ASTUPlayerCharacter::StaticClass();
     PlayerControllerClass = ASTUPlayerController::StaticClass();
     HUDClass = ASTUGameHUD::StaticClass();
     PlayerStateClass = ASTUPlayerState::StaticClass();
