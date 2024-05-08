@@ -3,6 +3,8 @@
 
 #include "Player/STUPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SphereComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/STUCharactermovementComponent.h"
 #include "Components/STUWeaponComponent.h"
 #include "Components/STUHealthComponent.h"
@@ -20,6 +22,11 @@ ASTUPlayerCharacter::ASTUPlayerCharacter(const FObjectInitializer& ObjInit)
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
     CameraComponent->SetupAttachment(SpringArmComponent);
+
+    CameraCollision = CreateDefaultSubobject<USphereComponent>("CameraCollision");
+    CameraCollision->SetupAttachment(CameraComponent);
+    CameraCollision->SetSphereRadius(10.f);
+    CameraCollision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 }
 
 // Called to bind functionality to input
@@ -81,5 +88,44 @@ void ASTUPlayerCharacter::OnDeath()
     if (Controller)
     {
         Controller->ChangeState(NAME_Spectating);
+    }
+}
+
+void ASTUPlayerCharacter::BeginPlay() 
+{
+    Super::BeginPlay();
+
+    check(CameraCollision);
+
+    CameraCollision->OnComponentBeginOverlap.AddDynamic(this, &ASTUPlayerCharacter::OnCameraBeginOverlap);
+    CameraCollision->OnComponentEndOverlap.AddDynamic(this, &ASTUPlayerCharacter::OnCameraEndOverlap);
+}
+
+void ASTUPlayerCharacter::OnCameraBeginOverlap( UPrimitiveComponent* OverlappedComponent,
+    AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    CheckCameraOverlap();
+}
+
+void ASTUPlayerCharacter::OnCameraEndOverlap(UPrimitiveComponent* OverlappedComponent,
+    AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+    CheckCameraOverlap();
+}
+
+void ASTUPlayerCharacter::CheckCameraOverlap() 
+{
+    const auto HideMesh = CameraCollision->IsOverlappingComponent(GetCapsuleComponent());
+    GetMesh()->SetOwnerNoSee(HideMesh);
+
+    TArray<USceneComponent*> AllChildrenMeshes;
+    GetMesh()->GetChildrenComponents(true, AllChildrenMeshes);
+    for (auto ChildMesh : AllChildrenMeshes)
+    {
+        const auto MeshChildGeometry = Cast<UPrimitiveComponent>(ChildMesh);
+        if (MeshChildGeometry)
+        {
+            MeshChildGeometry->SetOwnerNoSee(HideMesh);
+        }
     }
 }
