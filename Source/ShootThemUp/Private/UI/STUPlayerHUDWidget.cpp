@@ -8,6 +8,12 @@
 
 bool USTUPlayerHUDWidget::Initialize() 
 {
+    if (GetOwningPlayer())
+    {
+        GetOwningPlayer()->GetOnNewPawnNotifier().AddUObject(this, &USTUPlayerHUDWidget::OnNewPawn);
+        OnNewPawn(GetOwningPlayerPawn());
+    }
+
     if (const auto HealthComponent = GetHealthComponent())
     {
         HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
@@ -63,6 +69,15 @@ bool USTUPlayerHUDWidget::IsPlayerAlive() const
 USTUHealthComponent* USTUPlayerHUDWidget::GetHealthComponent() const
 {
     return STUUtils::GetSTUPlayerController<USTUHealthComponent>(GetOwningPlayerPawn());
+}
+
+void USTUPlayerHUDWidget::OnNewPawn(APawn* Pawn)
+{
+    const auto HealthComponent = STUUtils::GetSTUPlayerController<USTUHealthComponent>(Pawn);
+    if (HealthComponent && !HealthComponent->OnHealthChanged.IsBoundToObject(this))
+    {
+        HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
+    }
 }
 
 bool USTUPlayerHUDWidget::IsPlayerSpectationg() const 
