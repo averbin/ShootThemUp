@@ -32,6 +32,7 @@ void ASTUGameModeBase::StartPlay()
 
     CurrentRound = 1;
     StartRound();
+    SetMatchState(ESTUMatchState::InProgress);
 }
 
 UClass* ASTUGameModeBase::GetDefaultPawnClassForController_Implementation(AController* InController)
@@ -208,5 +209,15 @@ void ASTUGameModeBase::EndGame()
             Pawn->TurnOff();
             Pawn->DisableInput(nullptr);
         }
+    }
+    SetMatchState(ESTUMatchState::EndGame);
+}
+
+void ASTUGameModeBase::SetMatchState(const ESTUMatchState State)
+{
+    if (MatchState != State)
+    {
+        MatchState = State;
+        OnMatchStateChanged.Broadcast(MatchState);
     }
 }
