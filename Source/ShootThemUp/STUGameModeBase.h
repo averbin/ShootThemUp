@@ -30,6 +30,8 @@ public:
     int32 GetCurrentRound() const { return CurrentRound; }
     int32 GetRemainingTimeInSeconds() const { return RoundCountDown; }
     void RespawnRequest(AController* Controller);
+    virtual bool SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate = FCanUnpause()) override;
+    virtual bool ClearPause() override;
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Game")
