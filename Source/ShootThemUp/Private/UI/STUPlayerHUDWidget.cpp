@@ -6,8 +6,10 @@
 #include "Components/STUWeaponComponent.h"
 #include "STUUtils.h"
 
-bool USTUPlayerHUDWidget::Initialize() 
+void USTUPlayerHUDWidget::NativeOnInitialized()
 {
+    Super::NativeOnInitialized();
+
     if (GetOwningPlayer())
     {
         GetOwningPlayer()->GetOnNewPawnNotifier().AddUObject(this, &USTUPlayerHUDWidget::OnNewPawn);
@@ -18,7 +20,6 @@ bool USTUPlayerHUDWidget::Initialize()
     {
         HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
     }
-    return Super::Initialize();
 }
 
 float USTUPlayerHUDWidget::GetHealthPercent() const

@@ -6,21 +6,29 @@
 #include "Player/STUPlayerState.h"
 #include "UI/STUPlayerStatsRowWidget.h"
 #include "Components/VerticalBox.h"
+#include "Components/Button.h"
 #include "STUUtils.h"
+#include "Kismet/GameplayStatics.h"
 
-bool USTUEndGameWidget::Initialize()
+void USTUEndGameWidget::NativeOnInitialized()
 {
+    Super::NativeOnInitialized();
+
     if (GetWorld())
     {
         const auto GameMode = Cast<ASTUGameModeBase>(GetWorld()->GetAuthGameMode());
         if (!GameMode)
-            return false;
+            return;
         GameMode->OnMatchStateChanged.AddUObject(this, &USTUEndGameWidget::OnMatchStateChanged);
     }
-    return Super::Initialize();
+
+    if (ResetLevelButton)
+    {
+        ResetLevelButton->OnClicked.AddDynamic(this, &USTUEndGameWidget::OnResetLevel);
+    }
 }
 
-void USTUEndGameWidget::OnMatchStateChanged(ESTUMatchState State) 
+void USTUEndGameWidget::OnMatchStateChanged(ESTUMatchState State)
 {
     if (State == ESTUMatchState::EndGame)
     {
@@ -56,4 +64,11 @@ void USTUEndGameWidget::UpdatePlayerStat()
 
         PlayerStatBox->AddChild(PlayerStatWidget);
     }
+}
+
+void USTUEndGameWidget::OnResetLevel() 
+{
+    const FName LoadLevelName = "TestLevel";
+    const FString CurrentLevel = UGameplayStatics::GetCurrentLevelName(this);
+    UGameplayStatics::OpenLevel(this, FName(CurrentLevel));
 }
