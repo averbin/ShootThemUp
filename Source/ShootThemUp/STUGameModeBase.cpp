@@ -34,8 +34,6 @@ void ASTUGameModeBase::StartPlay()
     CurrentRound = 1;
     StartRound();
     SetMatchState(ESTUMatchState::InProgress);
-
-    UE_LOG(LogASTUGameModeBase, Display, TEXT("%s"), *GetWorld()->GetGameInstance<USTUGameInstance>()->TestString)
 }
 
 UClass* ASTUGameModeBase::GetDefaultPawnClassForController_Implementation(AController* InController)
