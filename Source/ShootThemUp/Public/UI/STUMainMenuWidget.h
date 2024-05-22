@@ -24,4 +24,5 @@ protected:
 private:
     UFUNCTION()
     void OnGameMenuButtonClicked();
+
 };

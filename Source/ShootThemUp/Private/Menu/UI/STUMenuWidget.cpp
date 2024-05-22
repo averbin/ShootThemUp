@@ -11,9 +11,15 @@ DEFINE_LOG_CATEGORY_STATIC(LogUSTUMenuWidget, All, All)
 void USTUMenuWidget::NativeOnInitialized() 
 {
     Super::NativeOnInitialized();
+
     if (StartButton)
     {
         StartButton->OnClicked.AddDynamic(this, &USTUMenuWidget::OnStartButtonClicked);
+    }
+
+    if (QuitGameButton)
+    {
+        QuitGameButton->OnClicked.AddDynamic(this, &USTUMenuWidget::OnQuitGameButtonClicked);
     }
 }
 
@@ -33,4 +39,9 @@ void USTUMenuWidget::OnStartButtonClicked()
     }
 
     UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevelName());
+}
+
+void USTUMenuWidget::OnQuitGameButtonClicked() 
+{
+    UKismetSystemLibrary::QuitGame(this, GetOwningPlayer(), EQuitPreference::Quit, true);
 }
