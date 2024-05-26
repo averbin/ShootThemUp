@@ -4,9 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "STUCoreTypes.h"
 #include "STUMenuWidget.generated.h"
 
 class UButton;
+class UHorizontalBox;
+class USTUGameInstance;
+class USTULevelItemWidget;
 /**
  * 
  */
@@ -24,9 +28,24 @@ protected:
     UPROPERTY(meta = (BindWidget))
     UButton* QuitGameButton;
 
+    UPROPERTY(meta = (BindWidget))
+    UHorizontalBox* LevelItemsBox;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<UUserWidget> LevelItemWidgetClass;
+
 private:
     UFUNCTION()
     void OnStartButtonClicked();
     UFUNCTION()
     void OnQuitGameButtonClicked();
+    UFUNCTION()
+    void OnLevelSelected(const FLevelData& Data);
+
+    void InitLevelItems();
+    USTUGameInstance* GetSTUGameInstance() const;
+
+
+    UPROPERTY()
+    TArray<USTULevelItemWidget*> LevelItemWidgets;
 };
