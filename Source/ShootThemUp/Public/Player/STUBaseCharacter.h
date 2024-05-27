@@ -55,8 +55,10 @@ public:
 
     void SetPlayerColor(const FLinearColor& NewColor);
 
+protected:
+    virtual void OnHealthChanged(float Health, float Delta);
+
 private:
     UFUNCTION()
     void OnGroundLanded(const FHitResult& Hit);
-    void OnHealthChanged(float Health, float Delta);
 };
