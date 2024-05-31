@@ -61,6 +61,7 @@ void USTUEndGameWidget::UpdatePlayerStat()
         PlayerStatWidget->SetDeaths(STUUtils::TextFromInt(PlayerState->GetDeaths()));
         PlayerStatWidget->SetTeam(STUUtils::TextFromInt(PlayerState->GetTeamID()));
         PlayerStatWidget->SetPlayerIndicator(Controller->IsPlayerController());
+        PlayerStatWidget->SetTeamColor(PlayerState->GetTeamColor());
 
         PlayerStatBox->AddChild(PlayerStatWidget);
     }

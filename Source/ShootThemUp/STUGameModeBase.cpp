@@ -211,7 +211,7 @@ void ASTUGameModeBase::LogPlayersInfo()
     for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
     {
         const auto Controller = It->Get();
-        if (!Controller)
+        if (!Controller || !Controller->GetPawn())
             continue;
         const auto PlayerState = Cast<ASTUPlayerState>(Controller->GetPawn()->GetPlayerState());
         if (!PlayerState)
