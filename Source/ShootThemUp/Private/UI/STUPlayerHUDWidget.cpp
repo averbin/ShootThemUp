@@ -118,6 +118,7 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float Delta)
     if (Delta < 0.f)
     {
         OnTakeDamage();
+        Show();
     }
 
     UpdateHealthBar();

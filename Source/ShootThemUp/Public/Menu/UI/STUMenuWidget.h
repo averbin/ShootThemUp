@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "STUBaseWidget.h"
 #include "STUCoreTypes.h"
 #include "STUMenuWidget.generated.h"
 
@@ -15,7 +15,7 @@ class USTULevelItemWidget;
  * 
  */
 UCLASS()
-class SHOOTTHEMUP_API USTUMenuWidget : public UUserWidget
+class SHOOTTHEMUP_API USTUMenuWidget : public USTUBaseWidget
 {
 	GENERATED_BODY()
 	

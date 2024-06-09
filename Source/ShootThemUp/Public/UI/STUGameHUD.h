@@ -7,7 +7,8 @@
 #include "STUCoreTypes.h"
 #include "STUGameHUD.generated.h"
 
-/**
+class USTUBaseWidget;
+    /**
  * 
  */
 UCLASS()
@@ -31,9 +32,9 @@ protected:
 
 private:
     UPROPERTY()
-    TMap<ESTUMatchState, UUserWidget*> GameWidgets;
+    TMap<ESTUMatchState, USTUBaseWidget*> GameWidgets;
     UPROPERTY()
-    UUserWidget* CurrentWidget = nullptr;
+    USTUBaseWidget* CurrentWidget = nullptr;
     void DrawCrossHair();
 
     void OnMatchStateChanged(ESTUMatchState MatchState);
