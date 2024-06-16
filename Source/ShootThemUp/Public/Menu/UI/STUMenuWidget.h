@@ -12,6 +12,7 @@ class UHorizontalBox;
 class UWidgetAnimation;
 class USTUGameInstance;
 class USTULevelItemWidget;
+class USoundCue;
 
 /**
  * 
@@ -39,6 +40,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
     TSubclassOf<UUserWidget> LevelItemWidgetClass;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+    USoundCue* StartGameSound;
 
 private:
     UFUNCTION()

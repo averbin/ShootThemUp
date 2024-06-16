@@ -8,6 +8,7 @@
 
 
 class UWidgetAnimation;
+class USoundCue;
     /**
  * 
  */
@@ -21,4 +22,6 @@ public:
 protected:
     UPROPERTY(meta = (BindWidgetAnim), Transient)
     UWidgetAnimation* ShowAnimation;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+    USoundCue* OpenSound;
 };
